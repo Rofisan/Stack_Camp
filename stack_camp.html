@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alarm Setiap Detik 40</title>
+
+<link rel="stylesheet" href="style_stack.css">
+
+<style>
+    /* Gaya untuk tombol */
+    button {
+      padding: 10px 20px;
+      background-color: #4CAF50; /* Warna latar belakang hijau */
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+  
+    /* Gaya untuk tombol saat diklik */
+    button.clicked {
+      background-color: #f44336; /* Warna latar belakang merah */
+    }
+  </style>
+
+</head>
+<body>
+    <h1>Alarm Setiap Detik 40</h1>
+    <p>waktu saat ini : </p> </p><p id="current-time"></p>
+    <button onclick="startAlarm()" id="startButton">Start Alarm</button>
+    <button onclick="stopAlarm()">Stop Alarm</button>
+
+    <audio id="alarm-audio">
+        <source src="ashiap.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    
+    <script>
+        let intervalId;
+        const audio = document.getElementById('alarm-audio');
+        const startButton = document.getElementById('startButton');
+
+        function startAlarm() {
+            intervalId = setInterval(checkSeconds, 1000);
+            startButton.classList.add('clicked'); // Menambah kelas clicked
+        }
+        
+
+        function stopAlarm() {
+            clearInterval(intervalId);
+            startButton.classList.remove('clicked'); // Menghapus kelas clicked
+        }
+
+        function checkSeconds() {
+            const date = new Date();
+            // const seconds = date.getSeconds();
+
+            const hours = addZero(date.getHours());
+            const minutes = addZero(date.getMinutes());
+            const seconds = addZero(date.getSeconds());
+            document.getElementById('current-time').textContent = `${hours}:${minutes}:${seconds}`;
+
+            if (seconds === 12) {
+                // alert('Alarm! Detik saat ini adalah 40.');
+                playAudio();
+            }
+        }
+
+        function playAudio() {
+            audio.play();
+        }
+
+        function addZero(number) {
+            return number < 10 ? '0' + number : number;
+        }
+    </script>
+</body>
+</html>
